@@ -1,8 +1,8 @@
 `timescale 1ns / 1ps
 module uart_tb;
-  parameter c_CLOCK_PERIOD_NS = 1000;
-  parameter c_CLKS_PER_BIT    = 104;//(Clock Frequency/Baud Rate)
-  //parameter c_BIT_PERIOD      = 8600;
+  parameter CLOCK_PERIOD_NS = 1000;
+  parameter CLKS_PER_BIT    = 104;//(Clock Frequency/Baud Rate)
+  
 	// Inputs
 	reg Master_Clk=0;
 	reg tx_datavalid=0;
@@ -15,13 +15,13 @@ module uart_tb;
    wire Rx_DataValid;
    wire Serial_Data;	
 	
-	UART_Receiver #(.Clk_per_bit(c_CLKS_PER_BIT)) UART_RX_INST (
+	UART_Receiver #(.Clk_per_bit(CLKS_PER_BIT)) UART_RX_INST (
 		.Master_Clk(Master_Clk), 
 		.Serial_Data(Serial_Data), 
 		.Rx_DataValid(Rx_DataValid), 
 		.Rx_Byte(Rx_Byte)
 	);
-	UART_Transmitter #(.Clk_per_bit(c_CLKS_PER_BIT)) UART_TX_INST
+	UART_Transmitter #(.Clk_per_bit(CLKS_PER_BIT)) UART_TX_INST
     (.MasterClk(Master_Clk),
      .tx_datavalid(tx_datavalid),
      .Byte_to_transmit(Tx_Byte),
@@ -30,7 +30,7 @@ module uart_tb;
      .tx_complete(Tx_Complete)
      );
    always
-    #(c_CLOCK_PERIOD_NS/2) Master_Clk <= !Master_Clk;
+    #(CLOCK_PERIOD_NS/2) Master_Clk <= !Master_Clk;
 	initial begin
 		// Initialize Inputs
 		@(posedge Master_Clk)
